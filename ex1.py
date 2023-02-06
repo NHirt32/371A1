@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter.ttk import Style
 
+import parse
+
 root = tk.Tk()
 # ============================================================================ #
 # Window Constants
@@ -25,6 +27,7 @@ output_file = ""
 input_file = ""
 algorithm_code = 0
 
+
 # ============================================================================ #
 # Window Functions
 
@@ -41,6 +44,7 @@ def select_output():
 
 def select_input():
     # Opens dialogue window to select and set the input file
+    global input_file
     input_file = filedialog.askopenfile(
         initialdir="/",
         title="Select an Input File",
@@ -49,9 +53,18 @@ def select_input():
     input_label.update()
 
 
+
 def knap_sack():
     # Runs the code to perform the Unbounded Knapsack problem
     append_dialogue("KnapSack\n")
+    parsed_list = parse.parse_file(input_file)
+    index = 0
+    #Debug printing loop
+    while index < len(parsed_list):
+        print(parsed_list[index])
+        index += 1
+    global capacity
+    capacity = int(parsed_list[0])
 
 
 def knap_sack_01():
