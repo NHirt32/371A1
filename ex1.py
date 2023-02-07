@@ -3,6 +3,7 @@ from tkinter import filedialog
 from tkinter.ttk import Style
 
 import parse
+from knapsack_item import item
 
 root = tk.Tk()
 # ============================================================================ #
@@ -26,6 +27,7 @@ FRAME_PADDING_Y = (HEIGHT/50, HEIGHT/11)
 output_file = ""
 input_file = ""
 algorithm_code = 0
+capacity = 0    #Variable used to store KP capacity
 
 
 # ============================================================================ #
@@ -44,7 +46,8 @@ def select_output():
 
 def select_input():
     # Opens dialogue window to select and set the input file
-    global input_file
+    global input_file   #input_file needs to be global for it to be associated with outside value
+
     input_file = filedialog.askopenfile(
         initialdir="/",
         title="Select an Input File",
@@ -56,15 +59,19 @@ def select_input():
 
 def knap_sack():
     # Runs the code to perform the Unbounded Knapsack problem
-    append_dialogue("KnapSack\n")
-    parsed_list = parse.parse_file(input_file)
-    index = 0
-    #Debug printing loop
-    while index < len(parsed_list):
-        print(parsed_list[index])
-        index += 1
     global capacity
+
+    append_dialogue("KnapSack\n")
+
+    parsed_list = parse.parse_file(input_file)
     capacity = int(parsed_list[0])
+    append_dialogue("Our Knapsacks weight capacity is: " + str(capacity) + "\n")
+    item_list = parse.object_list(parsed_list[1:])
+    # Debug printing loop
+    for index, element in enumerate(item_list):
+        print("The item's ID at index " + str(index) + " is " + str(element.get_ID()))
+        print("The item's weight at weight " + str(index) + " is " + str(element.get_weight()))
+        print("The item's price at index " + str(index) + " is " + str(element.get_price()))
 
 
 def knap_sack_01():
