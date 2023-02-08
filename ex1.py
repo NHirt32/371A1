@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter.ttk import Style
+from knapsackProblems import *
 
 import parse
 from knapsack_item import item
@@ -57,11 +58,11 @@ def select_input():
 
 
 
-def knap_sack():
-    # Runs the code to perform the Unbounded Knapsack problem
+def knap_sack_01():
+    # Runs the code to solve the 0-1 Knapsack problem
     global capacity
 
-    append_dialogue("KnapSack\n")
+    append_dialogue("0-1 KnapSack\n")
 
     parsed_list = parse.parse_file(input_file)
     capacity = int(parsed_list[0])
@@ -73,10 +74,11 @@ def knap_sack():
         print("The item's weight at weight " + str(index) + " is " + str(element.get_weight()))
         print("The item's price at index " + str(index) + " is " + str(element.get_price()))
 
+    append_dialogue(str(table_string(solve_01_knapsack(capacity, item_list))))
 
-def knap_sack_01():
-    # Runs the code to solve the 0-1 Knapsack problem
-    append_dialogue("KnapSack 0-1\n")
+def knap_sack():
+    # Runs the code to perform the Unbounded Knapsack problem
+    append_dialogue("KnapSack\n")
 
 
 def knap_sack_con():
@@ -192,8 +194,8 @@ algorithm_label.grid(padx=5, pady=(10, 5))
 
 # List of tuples containing the name of each knapsack problem variant, and the
 # problem's associated function
-algorithmn_values = [("Part I: Knapsack 0-1", knap_sack),
-                     ("Part II: General Knapsack", knap_sack_01),
+algorithmn_values = [("Part I: Knapsack 0-1", knap_sack_01),
+                     ("Part II: General Knapsack", knap_sack),
                      ("Part III: Knapsack 0-1 With Constraints", knap_sack_con),
                      ("Compute All", compute_all)]
 
