@@ -3,6 +3,7 @@ from cell import *
 from knapsack_item import *
 # Methods for solving the knapsack problem
 
+
 def solve_01_knapsack(capacity, item_list):
     item_list.insert(0, knapsack_item.item(0, 0, 0))
     capacities = range(0, capacity + 1)
@@ -20,9 +21,11 @@ def solve_01_knapsack(capacity, item_list):
                 # If its more valuable
                 if item.price + table[row - 1][col - item.weight].value > table[row - 1][col].value:
                     # set price
-                    table[row][col].value = table[row - 1][col - item.weight].value + item.price
+                    table[row][col].value = table[row -
+                                                  1][col - item.weight].value + item.price
                     # set items
-                    table[row][col].items = table[row - 1][col - item.weight].items.copy()
+                    table[row][col].items = table[row -
+                                                  1][col - item.weight].items.copy()
 
                     # add to cell's collection of items
                     table[row][col].items.append(item)
@@ -35,6 +38,8 @@ def solve_01_knapsack(capacity, item_list):
     return table
 
 # Initializes a table with cells,
+
+
 def init_table(capacity, item_list_size):
     table = []
 
@@ -49,13 +54,15 @@ def init_table(capacity, item_list_size):
     return table
 
 # returns table string
+
+
 def table_string(table):
     string = ""
     maximum = Cell([])
     for row in range(len(table)):
         string = string + "\n"
         for col in range(len(table[row])):
-            string = string + str(table[row][col].value) + " "
+            string = string + '\t' + str(table[row][col].value) + " "
             if table[row][col].value > maximum.value:
                 maximum = table[row][col]
 
@@ -67,5 +74,3 @@ def table_string(table):
     string = string + "\n"
 
     return string
-
-
