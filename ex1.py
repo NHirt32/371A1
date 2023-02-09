@@ -25,7 +25,7 @@ FRAME_PADDING_Y = (HEIGHT/50, HEIGHT/11)
 
 # ============================================================================ #
 # Window Variables
-output_file = open("dynamicTable.txt")
+output_file = open("dynamicTable.txt", 'w')
 input_file = open("SampleKnapsackData.txt")
 algorithm_code = 0
 capacity = 0  # Variable used to store KP capacity
@@ -42,7 +42,7 @@ def select_output():
         title="Select an Output File",
         filetypes=[("Text files", "*.txt*")])
     if output_file is None:
-        output_file = open("dynamicTable.txt")
+        output_file = open("dynamicTable.txt", 'w')
     output_label.config(text=output_file.name, bg=MENU_COLOR, padx=10)
     output_label.update()
 
@@ -81,8 +81,14 @@ def knap_sack_01():
         print("The item's price at index " + str(index) +
               " is " + str(element.get_price()))
 
-    append_dialogue(str(table_string(solve_01_knapsack(capacity, item_list))))
+    table = str(table_string(solve_01_knapsack(capacity, item_list)))
+
+    append_dialogue(table)
     append_dialogue("="*60 + "\n\n")
+
+    # Print the contents to the file
+    clear_output()
+    print_to_output()
 
 
 def knap_sack():
@@ -98,6 +104,16 @@ def knap_sack_con():
 def compute_all():
     # Runs the code to solve all of the knapsack problems
     append_dialogue("All Knapsack Problems.\n")
+
+
+def print_to_output():
+    # Prints the str input to the output file
+    output_file.write(result_box.get(1.0, "end-1c"))
+
+
+def clear_output():
+    # Deletes the contents of the output file
+    output_file.truncate(0)
 
 
 def append_dialogue(text):
