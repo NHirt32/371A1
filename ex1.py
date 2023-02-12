@@ -63,7 +63,7 @@ def select_input():
 
 def knap_sack_01():
     # Runs the code to solve the 0-1 Knapsack problem
-    global capacity
+    #global capacity
 
     append_dialogue("0-1 KnapSack\n")
 
@@ -92,8 +92,33 @@ def knap_sack_01():
 
 
 def knap_sack():
-    # Runs the code to perform the Unbounded Knapsack problem
-    append_dialogue("KnapSack\n")
+    # Runs the code to solve the Unbounded Knapsack problem
+    #global capacity
+
+    append_dialogue("Unbounded KnapSack\n")
+
+    parsed_list = parse.parse_file(input_file)
+    capacity = int(parsed_list[0])
+    append_dialogue("Our Knapsacks weight capacity is: " +
+                    str(capacity) + "\n")
+    item_list = parse.object_list(parsed_list[1:])
+    # Debug printing loop
+    for index, element in enumerate(item_list):
+        print("The item's ID at index " + str(index) +
+              " is " + str(element.get_ID()))
+        print("The item's weight at weight " + str(index) +
+              " is " + str(element.get_weight()))
+        print("The item's price at index " + str(index) +
+              " is " + str(element.get_price()))
+
+    table = str(table_string(solve_unbounded_knapsack(capacity, item_list)))
+
+    append_dialogue(table)
+    append_dialogue("="*60 + "\n\n")
+
+    # Print the contents to the file
+    clear_output()
+    print_to_output()
 
 
 def knap_sack_con():
@@ -104,6 +129,34 @@ def knap_sack_con():
 def compute_all():
     # Runs the code to solve all of the knapsack problems
     append_dialogue("All Knapsack Problems.\n")
+
+    parsed_list = parse.parse_file(input_file)
+    capacity = int(parsed_list[0])
+    append_dialogue("Our Knapsacks weight capacity is: " +
+                    str(capacity) + "\n")
+    item_list = parse.object_list(parsed_list[1:])
+    # Debug printing loop
+    for index, element in enumerate(item_list):
+        print("The item's ID at index " + str(index) +
+              " is " + str(element.get_ID()))
+        print("The item's weight at weight " + str(index) +
+              " is " + str(element.get_weight()))
+        print("The item's price at index " + str(index) +
+              " is " + str(element.get_price()))
+
+    append_dialogue("Knapsack 0-1")
+    table = str(table_string(solve_01_knapsack(capacity, item_list)))
+    append_dialogue(table)
+    append_dialogue("="*60 + "\n\n")
+
+    append_dialogue("General Unbounded Knapsack")
+    table = str(table_string(solve_unbounded_knapsack(capacity, item_list)))
+    append_dialogue(table)
+    append_dialogue("="*60 + "\n\n")
+
+    # Print the contents to the file
+    clear_output()
+    print_to_output()
 
 
 def print_to_output():

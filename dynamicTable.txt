@@ -1,11 +1,26 @@
-0-1 KnapSack
+All Knapsack Problems.
 Our Knapsacks weight capacity is: 5
-
+Knapsack 0-1
 	0 	0 	0 	0 	0 	0 
 	0 	0 	3 	3 	3 	3 
 	0 	0 	3 	4 	4 	7 
 	0 	0 	3 	4 	5 	7 
 	0 	0 	3 	4 	5 	7 
+The max value is: 7
+
+The IDs of the items for the max value are: 
+1
+2
+
+============================================================
+
+General Unbounded Knapsack
+	0 	0 	0 	0 	0 	0 
+	0 	0 	0 	0 	0 	0 
+	0 	0 	3 	3 	6 	6 
+	0 	0 	3 	4 	6 	7 
+	0 	0 	3 	4 	6 	7 
+	0 	0 	3 	4 	6 	7 
 The max value is: 7
 
 The IDs of the items for the max value are: 

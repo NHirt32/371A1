@@ -34,10 +34,37 @@ def solve_01_knapsack(capacity, item_list):
                     table[row][col] = table[row - 1][col]
             else:
                 table[row][col] = table[row - 1][col]
-
     return table
 
-# Initializes a table with cells,
+
+def solve_unbounded_knapsack(capacity, item_list):
+    item_list.insert(0, knapsack_item.item(0, 0, 0))
+    capacities = range(0, capacity + 1)
+    table = init_table(capacity + 1, len(item_list))
+
+    list = [0 for i in range(capacity + 1)]
+    for col in range(capacity + 1):
+        for row in range(len(item_list)):
+            item = item_list[row]
+            weight = item_list[row].weight
+            value = item_list[row].price
+            if weight <= col:
+                list[col] = max(list[col], list[col-weight] + value)
+
+                if table[row-1][col].value < table[row][col-weight].value + value:
+                    table[row][col].value = table[row][col - weight].value + value
+                    table[row][col].items = table[row][col - weight].items.copy()
+                    table[row][col].items.append(item)
+
+                else:
+                    table[row][col] = table[row-1][col]
+
+            else:
+                table[row][col] = table[row-1][col]
+    print(list)
+    return table
+
+    # Initializes a table with cells,
 
 
 def init_table(capacity, item_list_size):
