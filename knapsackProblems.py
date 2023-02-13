@@ -21,11 +21,11 @@ def solve_01_knapsack(capacity, item_list):
                 # If its more valuable
                 if item.price + table[row - 1][col - item.weight].value > table[row - 1][col].value:
                     # set price
-                    table[row][col].value = table[row -
-                                                  1][col - item.weight].value + item.price
+                    table[row][col].value = table[row - 1][col - item.weight].value + item.price
+                    # set weight
+                    table[row][col].weight = table[row - 1][col - item.weight].weight + item.weight
                     # set items
-                    table[row][col].items = table[row -
-                                                  1][col - item.weight].items.copy()
+                    table[row][col].items = table[row - 1][col - item.weight].items.copy()
 
                     # add to cell's collection of items
                     table[row][col].items.append(item)
@@ -53,6 +53,7 @@ def solve_unbounded_knapsack(capacity, item_list):
 
                 if table[row-1][col].value < table[row][col-weight].value + value:
                     table[row][col].value = table[row][col - weight].value + value
+                    table[row][col].value = table[row][col - weight].weight + weight
                     table[row][col].items = table[row][col - weight].items.copy()
                     table[row][col].items.append(item)
 
@@ -92,6 +93,28 @@ def table_string(table):
             string = string + '\t' + str(table[row][col].value) + " "
             if table[row][col].value > maximum.value:
                 maximum = table[row][col]
+
+    string = string + "\nThe max value is: " + str(maximum.value) + "\n"
+    string = string + "\nThe IDs of the items for the max value are: " + "\n"
+    for item in maximum.items:
+        string = string + str(item.ID) + "\n"
+
+    string = string + "\n"
+
+    return string
+
+def table_string_constraints(table):
+    string = ""
+    maximum = Cell([])
+    for row in range(len(table)):
+        string = string + "\n"
+        for col in range(len(table[row])):
+            string = string + '\t' + str(table[row][col].value) + " "
+            if table[row][col].value > maximum.value:
+                if table[row][col].value % 2 == 0:
+                    if table[row][col].weight % 2 == 1:
+                        maximum = table[row][col]
+
 
     string = string + "\nThe max value is: " + str(maximum.value) + "\n"
     string = string + "\nThe IDs of the items for the max value are: " + "\n"
