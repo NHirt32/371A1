@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter.ttk import Style
+from knapsackProblems import *
 
 import parse
 from knapsack_item import item
@@ -24,10 +25,10 @@ FRAME_PADDING_Y = (HEIGHT/50, HEIGHT/11)
 
 # ============================================================================ #
 # Window Variables
-output_file = ""
-input_file = ""
+output_file = open("dynamicTable.txt", 'w')
+input_file = open("SampleKnapsackData.txt")
 algorithm_code = 0
-capacity = 0    #Variable used to store KP capacity
+capacity = 0  # Variable used to store KP capacity
 
 
 # ============================================================================ #
@@ -40,53 +41,158 @@ def select_output():
         initialdir="/",
         title="Select an Output File",
         filetypes=[("Text files", "*.txt*")])
+    if output_file is None:
+        output_file = open("dynamicTable.txt", 'w')
     output_label.config(text=output_file.name, bg=MENU_COLOR, padx=10)
     output_label.update()
 
 
 def select_input():
     # Opens dialogue window to select and set the input file
-    global input_file   #input_file needs to be global for it to be associated with outside value
-
+    global input_file  # input_file needs to be global for it to be associated with outside value
+    prev_input = input_file.name
     input_file = filedialog.askopenfile(
         initialdir="/",
         title="Select an Input File",
         filetypes=[("Text files", "*.txt*")])
+    if input_file is None:
+        input_file = open(prev_input)
     input_label.config(text=input_file.name, bg=MENU_COLOR, padx=10)
     input_label.update()
 
 
+def knap_sack_01():
+    # Runs the code to solve the 0-1 Knapsack problem
+    #global capacity
 
-def knap_sack():
-    # Runs the code to perform the Unbounded Knapsack problem
-    global capacity
-
-    append_dialogue("KnapSack\n")
+    append_dialogue("0-1 KnapSack\n")
 
     parsed_list = parse.parse_file(input_file)
     capacity = int(parsed_list[0])
-    append_dialogue("Our Knapsacks weight capacity is: " + str(capacity) + "\n")
+    append_dialogue("Our Knapsacks weight capacity is: " +
+                    str(capacity) + "\n")
     item_list = parse.object_list(parsed_list[1:])
     # Debug printing loop
     for index, element in enumerate(item_list):
-        print("The item's ID at index " + str(index) + " is " + str(element.get_ID()))
-        print("The item's weight at weight " + str(index) + " is " + str(element.get_weight()))
-        print("The item's price at index " + str(index) + " is " + str(element.get_price()))
+        print("The item's ID at index " + str(index) +
+              " is " + str(element.get_ID()))
+        print("The item's weight at weight " + str(index) +
+              " is " + str(element.get_weight()))
+        print("The item's price at index " + str(index) +
+              " is " + str(element.get_price()))
+
+    table = str(table_string(solve_01_knapsack(capacity, item_list)))
+
+    append_dialogue(table)
+    append_dialogue("="*60 + "\n\n")
+
+    # Print the contents to the file
+    clear_output()
+    print_to_output()
 
 
-def knap_sack_01():
-    # Runs the code to solve the 0-1 Knapsack problem
-    append_dialogue("KnapSack 0-1\n")
+def knap_sack():
+    # Runs the code to solve the Unbounded Knapsack problem
+
+    append_dialogue("Unbounded KnapSack\n")
+
+    parsed_list = parse.parse_file(input_file)
+    capacity = int(parsed_list[0])
+    append_dialogue("Our Knapsacks weight capacity is: " +
+                    str(capacity) + "\n")
+    item_list = parse.object_list(parsed_list[1:])
+    # Debug printing loop
+    for index, element in enumerate(item_list):
+        print("The item's ID at index " + str(index) +
+              " is " + str(element.get_ID()))
+        print("The item's weight at weight " + str(index) +
+              " is " + str(element.get_weight()))
+        print("The item's price at index " + str(index) +
+              " is " + str(element.get_price()))
+
+    table = str(table_string(solve_unbounded_knapsack(capacity, item_list)))
+
+    append_dialogue(table)
+    append_dialogue("="*60 + "\n\n")
+
+    # Print the contents to the file
+    clear_output()
+    print_to_output()
 
 
 def knap_sack_con():
     # Runs the code to solve the Knapsack problem with constraints
     append_dialogue("KnapSack with constraints\n")
 
+    parsed_list = parse.parse_file(input_file)
+    capacity = int(parsed_list[0])
+    append_dialogue("Our Knapsacks weight capacity is: " +
+                    str(capacity) + "\n")
+    item_list = parse.object_list(parsed_list[1:])
+    # Debug printing loop
+    for index, element in enumerate(item_list):
+        print("The item's ID at index " + str(index) +
+              " is " + str(element.get_ID()))
+        print("The item's weight at weight " + str(index) +
+              " is " + str(element.get_weight()))
+        print("The item's price at index " + str(index) +
+              " is " + str(element.get_price()))
+
+    table = str(table_string(solve_01_knapsack_constraints(capacity, item_list)))
+
+    append_dialogue(table)
+    append_dialogue("=" * 60 + "\n\n")
+
+    # Print the contents to the file
+    clear_output()
+    print_to_output()
 
 def compute_all():
     # Runs the code to solve all of the knapsack problems
     append_dialogue("All Knapsack Problems.\n")
+
+    parsed_list = parse.parse_file(input_file)
+    capacity = int(parsed_list[0])
+    append_dialogue("Our Knapsacks weight capacity is: " +
+                    str(capacity) + "\n")
+    item_list = parse.object_list(parsed_list[1:])
+    # Debug printing loop
+    for index, element in enumerate(item_list):
+        print("The item's ID at index " + str(index) +
+              " is " + str(element.get_ID()))
+        print("The item's weight at weight " + str(index) +
+              " is " + str(element.get_weight()))
+        print("The item's price at index " + str(index) +
+              " is " + str(element.get_price()))
+
+    append_dialogue("Knapsack 0-1")
+    table = str(table_string(solve_01_knapsack(capacity, item_list.copy())))
+    append_dialogue(table)
+    append_dialogue("=" * 60 + "\n\n")
+
+    append_dialogue("General Unbounded Knapsack")
+    table = str(table_string(solve_unbounded_knapsack(capacity, item_list.copy())))
+    append_dialogue(table)
+    append_dialogue("=" * 60 + "\n\n")
+
+    append_dialogue("Knapsack with Constraints")
+    new_table = str(table_string(solve_01_knapsack_constraints(capacity, item_list.copy())))
+    append_dialogue(new_table)
+    append_dialogue("=" * 60 + "\n\n")
+
+    # Print the contents to the file
+    clear_output()
+    print_to_output()
+
+
+def print_to_output():
+    # Prints the str input to the output file
+    output_file.write(result_box.get(1.0, "end-1c"))
+
+
+def clear_output():
+    # Deletes the contents of the output file
+    output_file.truncate(0)
 
 
 def append_dialogue(text):
@@ -153,7 +259,7 @@ input_btn.grid(padx=5, pady=5)
 
 # Input File Label - Displays current input file
 input_label = tk.Label(selection_frame,
-                       text=input_file,
+                       text=input_file.name,
                        bg=SELECTION_COLOR,
                        font=SELECTION_FONT,
                        foreground=LIGHT_ACCENT)
@@ -173,7 +279,7 @@ output_btn.grid(padx=5, pady=5)
 
 # Output File Label - Displays current output file
 output_label = tk.Label(selection_frame,
-                        text=output_file,
+                        text=output_file.name,
                         bg=SELECTION_COLOR,
                         font=SELECTION_FONT,
                         foreground=LIGHT_ACCENT)
@@ -192,8 +298,8 @@ algorithm_label.grid(padx=5, pady=(10, 5))
 
 # List of tuples containing the name of each knapsack problem variant, and the
 # problem's associated function
-algorithmn_values = [("Part I: Knapsack 0-1", knap_sack),
-                     ("Part II: General Knapsack", knap_sack_01),
+algorithmn_values = [("Part I: Knapsack 0-1", knap_sack_01),
+                     ("Part II: General Knapsack", knap_sack),
                      ("Part III: Knapsack 0-1 With Constraints", knap_sack_con),
                      ("Compute All", compute_all)]
 
