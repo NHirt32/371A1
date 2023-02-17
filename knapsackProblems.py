@@ -4,6 +4,7 @@ from cell import *
 
 
 def solve_01_knapsack(capacity, item_list):
+    """Solves the 01 Knapsack problem, returns a maximum and a table."""
     item_list.insert(0, knapsack_item.item(0, 0, 0))
     capacities = range(0, capacity + 1)
 
@@ -48,6 +49,7 @@ def solve_01_knapsack(capacity, item_list):
 
 
 def solve_unbounded_knapsack(capacity, item_list):
+    """Solves the unbounded Knapsack problem, returns a maximum and a table."""
     item_list.insert(0, knapsack_item.item(0, 0, 0))
     capacities = range(0, capacity + 1)
     table = init_table(capacity + 1, len(item_list))
@@ -83,6 +85,7 @@ def solve_unbounded_knapsack(capacity, item_list):
 
 
 def solve_01_knapsack_constraints(capacity, item_list, invalid_weights, invalid_costs):
+    """Solves the constrained 01 Knapsack problem, returns a maximum and a table."""
     item_list.insert(0, knapsack_item.item(0, 0, 0))
     capacities = range(0, capacity + 1)
 
@@ -157,6 +160,7 @@ def solve_01_knapsack_constraints(capacity, item_list, invalid_weights, invalid_
 
 # Initializes a table with cells,
 def init_table(capacity, item_list_size):
+    """Initializes a table of capacity by item_list_size."""
     table = []
 
     for row in range(0, item_list_size):
@@ -172,6 +176,7 @@ def init_table(capacity, item_list_size):
 
 # Returns table string. Takes a table_info tuple.
 def table_string(table_info):
+    """Returns a string representing a table."""
     string = ""
     maximum = Cell([])
     for row in range(len(table_info[0])):
