@@ -156,6 +156,7 @@ def knap_sack_con():
 
 
 def compute_all():
+    clear_dialogue()
     # Runs the code to solve all of the knapsack problems
     append_dialogue("All Knapsack Problems.\n")
 
@@ -344,7 +345,9 @@ desc_text = tk.Text(selection_frame,
 
 # Adding Quick Start Text
 desc_text.insert(tk.INSERT,
-                 "Sample text about how to use the program...........")
+                 "1) Choose Input and Output File.\n2) Choose the Algorithm and press the button.\n\
+\t - It will clear output file \n\
+\t - And solve the problem...")
 desc_text.grid(padx=5, pady=5)
 desc_text.configure(state='disabled')
 

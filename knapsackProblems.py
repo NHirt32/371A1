@@ -78,7 +78,6 @@ def solve_unbounded_knapsack(capacity, item_list):
 
             else:
                 table[row][col] = table[row-1][col]
-    print(list)
     returner = (table, maximum)
     return returner
 
@@ -149,8 +148,6 @@ def solve_01_knapsack_constraints(capacity, item_list, invalid_weights, invalid_
         invalid_weights.append(maximum.weight)
 
     print(str(table_string((table, maximum))))
-    print(invalid_weights)
-    print(invalid_costs)
 
     if maximum.value in invalid_costs or maximum.weight in invalid_weights:
         return solve_01_knapsack_constraints(capacity, item_list, invalid_weights, invalid_costs)
