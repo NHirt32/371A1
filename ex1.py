@@ -37,10 +37,13 @@ capacity = 0  # Variable used to store KP capacity
 
 def select_output():
     # Opens dialogue window to select and set the output file
+    global output_file
     output_file = filedialog.askopenfile(
         initialdir="/",
         title="Select an Output File",
-        filetypes=[("Text files", "*.txt*")])
+        filetypes=[("Text files", "*.txt*")],
+        mode='w'
+    )
     if output_file is None:
         output_file = open("dynamicTable.txt", 'w')
     output_label.config(text=output_file.name, bg=MENU_COLOR, padx=10)
@@ -62,8 +65,9 @@ def select_input():
 
 
 def knap_sack_01():
+    clear_dialogue()
     # Runs the code to solve the 0-1 Knapsack problem
-    #global capacity
+    # global capacity
 
     append_dialogue("0-1 KnapSack\n")
 
@@ -92,6 +96,7 @@ def knap_sack_01():
 
 
 def knap_sack():
+    clear_dialogue()
     # Runs the code to solve the Unbounded Knapsack problem
 
     append_dialogue("Unbounded KnapSack\n")
@@ -121,6 +126,7 @@ def knap_sack():
 
 
 def knap_sack_con():
+    clear_dialogue()
     # Runs the code to solve the Knapsack problem with constraints
     append_dialogue("KnapSack with constraints\n")
 
@@ -138,8 +144,8 @@ def knap_sack_con():
         print("The item's price at index " + str(index) +
               " is " + str(element.get_price()))
 
-    table = str(table_string(solve_01_knapsack_constraints(
-        capacity, item_list, [None], [None])))
+    table = str(table_string(
+        solve_01_knapsack_constraints(capacity, item_list, [None], [None])))
 
     append_dialogue(table)
     append_dialogue("=" * 60 + "\n\n")
@@ -150,6 +156,7 @@ def knap_sack_con():
 
 
 def compute_all():
+    clear_dialogue()
     # Runs the code to solve all of the knapsack problems
     append_dialogue("All Knapsack Problems.\n")
 
@@ -180,7 +187,7 @@ def compute_all():
 
     append_dialogue("Knapsack with Constraints")
     new_table = str(table_string(
-        solve_01_knapsack_constraints(capacity, item_list.copy())))
+        solve_01_knapsack_constraints(capacity, item_list.copy(), [None], [None])))
     append_dialogue(new_table)
     append_dialogue("=" * 60 + "\n\n")
 
@@ -212,6 +219,7 @@ def clear_dialogue():
     result_box.configure(state='normal')
     result_box.delete('1.0', tk.END)
     result_box.configure(state='disabled')
+    result_box.update()
 
 
 # ============================================================================ #
@@ -337,7 +345,9 @@ desc_text = tk.Text(selection_frame,
 
 # Adding Quick Start Text
 desc_text.insert(tk.INSERT,
-                 "Sample text about how to use the program...........")
+                 "1) Choose Input and Output File.\n2) Choose the Algorithm and press the button.\n\
+\t - It will clear output file \n\
+\t - And solve the problem...")
 desc_text.grid(padx=5, pady=5)
 desc_text.configure(state='disabled')
 
