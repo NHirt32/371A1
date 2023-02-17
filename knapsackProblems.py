@@ -89,6 +89,8 @@ def solve_01_knapsack_constraints(capacity, item_list, invalid_weights, invalid_
 
     table = init_table(capacity + 1, len(item_list))
 
+    maximum = Cell([])
+
     for row in range(0, len(item_list)):
         for col in capacities:
 
@@ -96,49 +98,33 @@ def solve_01_knapsack_constraints(capacity, item_list, invalid_weights, invalid_
 
             # If it fits
             if item.weight <= col:
-                test_cost = item.price + \
-                    table[row - 1][col - item.weight].value
-
-                test_weight = table[row - 1][col -
-                                             item.weight].weight + item.weight
-
-                prev_cost = table[row - 1][col].value
 
                 # If its more valuable
-                if test_cost > prev_cost:
+                if item.price + table[row - 1][col - item.weight].value > table[row - 1][col].value:
+                    # set price
+                    table[row][col].value = table[row -
+                                                  1][col - item.weight].value + item.price
+                    # set weight
+                    table[row][col].weight = table[row -
+                                                   1][col - item.weight].weight + item.weight
+                    # set items
+                    table[row][col].items = table[row -
+                                                  1][col - item.weight].items.copy()
 
-                    if test_cost not in invalid_costs and test_weight not in invalid_weights:
+                    # add to cell's collection of items
+                    table[row][col].items.append(item)
 
-                        # set price
-                        table[row][col].value = test_cost
-                        # set weight
-                        table[row][col].weight = test_weight
-                        # set items
-                        table[row][col].items = table[row -
-                                                      1][col - item.weight].items.copy()
+                    # dynamically set our returned best solution.
+                    if maximum.value < table[row][col].value:
+                        maximum = Cell(table[row][col].items)
 
-                        # add to cell's collection of items
-                        table[row][col].items.append(item)
-
-                    else:
-                        table[row][col] = table[row - 1][col]
                 else:
                     table[row][col] = table[row - 1][col]
             else:
                 table[row][col] = table[row - 1][col]
 
-    maximum = table[len(item_list) - 1][capacity]
-
-    if maximum.value % 2 != 0:
-        invalid_costs.append(maximum.value)
-
-    if maximum.weight % 2 != 1:
-        invalid_weights.append(maximum.weight)
-
-    if maximum.value in invalid_costs or maximum.weight in invalid_weights:
-        return solve_01_knapsack_constraints(capacity, item_list, invalid_weights, invalid_costs)
-    else:
-        return (table, maximum)
+    table_info = (table, maximum)
+    return table_info
 
 
 # Initializes a table with cells,

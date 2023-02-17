@@ -37,10 +37,13 @@ capacity = 0  # Variable used to store KP capacity
 
 def select_output():
     # Opens dialogue window to select and set the output file
+    global output_file
     output_file = filedialog.askopenfile(
         initialdir="/",
         title="Select an Output File",
-        filetypes=[("Text files", "*.txt*")])
+        filetypes=[("Text files", "*.txt*")],
+        mode='w'
+    )
     if output_file is None:
         output_file = open("dynamicTable.txt", 'w')
     output_label.config(text=output_file.name, bg=MENU_COLOR, padx=10)
@@ -212,6 +215,7 @@ def clear_dialogue():
     result_box.configure(state='normal')
     result_box.delete('1.0', tk.END)
     result_box.configure(state='disabled')
+    result_box.update()
 
 
 # ============================================================================ #
