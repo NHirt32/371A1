@@ -65,8 +65,9 @@ def select_input():
 
 
 def knap_sack_01():
+    clear_dialogue()
     # Runs the code to solve the 0-1 Knapsack problem
-    #global capacity
+    # global capacity
 
     append_dialogue("0-1 KnapSack\n")
 
@@ -95,6 +96,7 @@ def knap_sack_01():
 
 
 def knap_sack():
+    clear_dialogue()
     # Runs the code to solve the Unbounded Knapsack problem
 
     append_dialogue("Unbounded KnapSack\n")
@@ -124,6 +126,7 @@ def knap_sack():
 
 
 def knap_sack_con():
+    clear_dialogue()
     # Runs the code to solve the Knapsack problem with constraints
     append_dialogue("KnapSack with constraints\n")
 
@@ -141,8 +144,8 @@ def knap_sack_con():
         print("The item's price at index " + str(index) +
               " is " + str(element.get_price()))
 
-    table = str(table_string(solve_01_knapsack_constraints(
-        capacity, item_list, [None], [None])))
+    table = str(table_string(
+        solve_01_knapsack_constraints(capacity, item_list, [None], [None])))
 
     append_dialogue(table)
     append_dialogue("=" * 60 + "\n\n")
@@ -183,7 +186,7 @@ def compute_all():
 
     append_dialogue("Knapsack with Constraints")
     new_table = str(table_string(
-        solve_01_knapsack_constraints(capacity, item_list.copy())))
+        solve_01_knapsack_constraints(capacity, item_list.copy(), [None], [None])))
     append_dialogue(new_table)
     append_dialogue("=" * 60 + "\n\n")
 
